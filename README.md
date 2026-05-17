@@ -49,6 +49,6 @@ docker build -t tinyparrot .
 
 ## Publishing
 
-The GitHub workflow builds and publishes `linux/amd64` and `linux/arm64` images to GHCR when a tag is pushed:
+The GitHub workflow builds and publishes `linux/amd64`, `linux/arm64`, and `linux/arm/v7` images to GHCR when a tag is pushed:
 
 - `ghcr.io/sygmei/tinyparrot`

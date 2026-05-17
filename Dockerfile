@@ -9,10 +9,13 @@ RUN go mod download
 COPY . .
 ARG TARGETOS
 ARG TARGETARCH
-RUN CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build \
-    -trimpath \
-    -ldflags="-s -w -buildid=" \
-    -o /out/tinyparrot .
+ARG TARGETVARIANT
+RUN set -eux; \
+    if [ "$TARGETARCH" = "arm" ]; then export GOARM="${TARGETVARIANT#v}"; fi; \
+    CGO_ENABLED=0 GOOS=$TARGETOS GOARCH=$TARGETARCH go build \
+      -trimpath \
+      -ldflags="-s -w -buildid=" \
+      -o /out/tinyparrot .
 
 FROM scratch
 COPY --from=build /out/tinyparrot /tinyparrot
